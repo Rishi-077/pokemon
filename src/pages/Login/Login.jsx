@@ -1,10 +1,55 @@
 import styles from "./Login.module.css";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { FiLock } from "react-icons/fi";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { notification } from "antd";
 
 function Login() {
+  const navigate = useNavigate();
+  const [view, setView] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
+
+  const showNotification = (type, message) => {
+    api[type]({
+      message: message,
+    });
+  };
+
+  const {
+    register,
+    reset,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    if (data.email === "admin@gmail.com" && data.password === "admin") {
+      showNotification("success", "Login Successfully");
+      localStorage.setItem(
+        "Local_User",
+        "fsfsoijomdpgmpd98y94h9sv4w949f0wnv0j43gw0g"
+      );
+      localStorage.setItem("status", true);
+      navigate("/dashboard");
+      reset();
+      showNotification("success", "Login Successfully");
+    } else {
+      showNotification("error", "Login Failed");
+    }
+  };
   return (
     <>
+      {contextHolder}
       <section className={`${styles.login_container} container-fluid`}>
         <div className={`row h-100`}>
           <div className="col-12 d-flex align-items-center justify-content-center">
@@ -18,7 +63,7 @@ function Login() {
                   </div>
                 </div>
                 <div>
-                  <form>
+                  <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-4">
                       <label>
                         <span className="text-danger">
@@ -36,9 +81,25 @@ function Login() {
                           />
                         </div>
                         <input
+                          type="email"
                           className={` form-control shadow-none border-0`}
+                          {...register("email", {
+                            required: "Email is required",
+                            pattern: {
+                              value:
+                                /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/,
+                              message: "Email is Invalid",
+                            },
+                            maxLength: {
+                              value: 55,
+                              message: "Max length is 55",
+                            },
+                          })}
                         />
                       </div>
+                      <span className="text-danger mt-1 fs-11 fw-500">
+                        {errors.email && errors.email.message}
+                      </span>
                     </div>
                     <div className="mb-4">
                       <label>
@@ -57,12 +118,32 @@ function Login() {
                           />
                         </div>
                         <input
+                          type={view ? "text" : "password"}
                           className={` form-control shadow-none border-0`}
+                          {...register("password", {
+                            required: "Password is required",
+                            maxLength: {
+                              value: 55,
+                              message: "Max length is 55",
+                            },
+                          })}
                         />
+                        <div onClick={() => setView(!view)}>
+                          {view ? (
+                            <IoEye className="fs-20 me-2" />
+                          ) : (
+                            <IoEyeOff className="fs-20 me-2" />
+                          )}
+                        </div>
                       </div>
+                      <span className="text-danger mt-1 fs-11 fw-500">
+                        {errors.password && errors.password.message}
+                      </span>
                     </div>
                     <div>
-                      <button className="btn blue-bg white-text fs-14 fw-500 w-100">Sign In</button>
+                      <button className="btn blue-bg white-text fs-14 fw-500 w-100">
+                        Sign In
+                      </button>
                     </div>
                   </form>
                 </div>

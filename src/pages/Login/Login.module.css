@@ -23,4 +23,5 @@
 .login_input {
   border: 1px solid #e0dede;
   border-radius: 9px;
+  font-size: 14px !important;
 }

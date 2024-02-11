@@ -2,6 +2,9 @@
 
 body {
   font-family: "Montserrat", sans-serif !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
 }
 
 :root {
@@ -9,7 +12,7 @@ body {
   --primary-color-2: #191c22;
   --white-color: #ffffff;
   --black-color: #000000;
-  --blue-color: #446fe1;
+  --blue-color: #3e79f7;
   --dark-color: #2f343e;
   --gray-color: #96a2b4;
 }
