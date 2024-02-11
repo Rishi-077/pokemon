@@ -2,16 +2,22 @@ import styles from "./Sidebar.module.css";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaXmark } from "react-icons/fa6";
 import { menu } from "./menu";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleOpen } from "../../services/Redux/LabelSlice";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 function Sidebar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const label = useSelector((state) => state.sidebar.label);
   const open = useSelector((state) => state.sidebar.open);
 
+  function logout() {
+    localStorage.clear();
+    navigate("/login");
+  }
   return (
     <aside className={`${styles.sidebar_container}`}>
       <div className={`${styles.page}`}>
@@ -51,6 +57,20 @@ function Sidebar() {
               </NavLink>
             </>
           ))}
+          <a
+            onClick={logout}
+            className={`${styles.sidebar_position} ${styles.sidebar_position_inactive} d-flex align-items-center`}
+          >
+            <div>
+              {" "}
+              <FontAwesomeIcon
+                icon={faArrowRightFromBracket}
+                className={`${styles.icon}`}
+              />
+            </div>
+
+            <span>Logout</span>
+          </a>
         </div>
       </div>
     </aside>

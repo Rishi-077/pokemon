@@ -6,9 +6,12 @@ import Header from "../../Layouts/Header/Header";
 import { useSelector } from "react-redux";
 import Other from "../Other/Other";
 import { RequireAuth } from "../Login/RequireAuth";
+import { useEffect } from "react";
 
 function PageRoute() {
   const open = useSelector((state) => state.sidebar.open);
+
+
   return (
     <>
       <Sidebar />
