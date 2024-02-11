@@ -16,7 +16,7 @@ function Sidebar() {
 
   function logout() {
     localStorage.clear();
-    navigate("/login");
+    navigate("/");
   }
   return (
     <aside className={`${styles.sidebar_container}`}>
